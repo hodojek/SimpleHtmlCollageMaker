@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Page Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>HTML Page Creator</h1>
+        <p>Create HTML pages by dragging and editing elements.</p>
+    </header>
+    <div id="app">
+        <div id="canvas"></div>
+        <div id="sidebar">
+            <div id="tools">
+                <button id="add-btn" title="Click to add element">Add Element</button>
+                <select id="element-type" title="Select one of the types">
+                    <option value="text">Text</option>
+                    <option value="link">Link</option>
+                    <option value="image">Image</option>
+                    <option value="video">Video</option>
+                    <option value="audio">Audio</option>
+                </select>
+                <button id="transform-btn" title="Toggle transform mode">Transform</button>
+                <label>Canvas Width: <input id="canvas-width" type="number" value="800" step="50"></label>
+                <label>Canvas Height: <input id="canvas-height" type="number" value="600" step="50"></label>
+                <button id="set-canvas-size" title="Set canvas size">Set Size</button>
+            </div>
+
+            <div id="element-list">
+                <h3 title="Click on element to select">Elements</h3>
+                <ul id="elements-ul"></ul>
+            </div>
+
+            <button id="export-btn" title="Download HTML file">Export HTML</button>
+
+            <details id="help-details">
+              <summary>Help</summary>
+              <p>Add element by selecting the element type and clicking the "Add Element" button.</p>
+              <p>Gif counts as an image.</p>
+              <p>Enter transform mode to change scale by dragging the sides and rotate with arrow keys.</p>
+              <p>Click on item in elements to select it.</p>
+              <p>You can paste images onto this page to add them.</p>
+              <p>Right click on element for more options.</p>
+              <p>Videos and Audio start without controls because you can't move them around when controls are enabled.</p>
+            </details>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="code.js"></script>
+</body>
+</html>

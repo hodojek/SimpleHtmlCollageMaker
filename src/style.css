@@ -1,0 +1,104 @@
+﻿html {
+    height: 100dvh;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100dvh;
+}
+
+header {
+    background: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+
+#app {
+    margin-left: 20px;
+    display: flex;
+    height: 100%;
+}
+
+#canvas {
+    flex: none;
+    width: 800px;
+    height: 600px;
+    background: black;
+    position: relative;
+    overflow: hidden;
+}
+
+#sidebar {
+    width: 300px;
+    /* background: #f9f9f9; */
+    padding: 10px;
+    box-sizing: border-box;
+    /* border-left: 1px solid #ccc; */
+}
+
+#tools {
+    margin-bottom: 20px;
+}
+
+#tools button, #tools select {
+    display: block;
+    margin: 5px 0;
+    width: 100%;
+}
+
+#element-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+#element-list li {
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+#element-list li.selected {
+    background: #ddd;
+}
+
+#export-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+#help-details {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+#help-details summary {
+    color: #000;
+    cursor: pointer;
+}
+
+.element {
+    position: absolute;
+    min-width: 50px;
+    min-height: 50px;
+    touch-action: none;
+    cursor: move;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.element img, .element video {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.element audio {
+    width: 200px;
+}
+
+.element.selected {
+    outline: 2px solid #00ff00;
+    outline-offset: 2px;
+}
