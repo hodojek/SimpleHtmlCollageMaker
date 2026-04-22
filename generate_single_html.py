@@ -14,7 +14,7 @@ def build():
     html = html.replace('<link rel="stylesheet" href="style.css">', css)
     html = html.replace('<script src="code.js"></script>', js)
 
-    write_file("simple_html_collage_maker.html", html)
+    write_file("single_page/simple_html_collage_maker.html", html)
 
 if __name__ == "__main__":
     build()
