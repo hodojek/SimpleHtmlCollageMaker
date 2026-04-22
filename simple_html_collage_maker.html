@@ -25,6 +25,11 @@ header {
     text-wrap: nowrap;
 }
 
+header small {
+    font-size: 12px;
+    color: grey;
+}
+
 #app {
     margin-left: 20px;
     display: flex;
@@ -94,12 +99,6 @@ header {
     cursor: pointer;
 }
 
-.size-input {
-    /* display: inline-block; */
-    /* width: 100%; */
-    /* margin: 5px 0; */
-}
-
 .element {
     position: absolute;
     min-width: 50px;
@@ -116,8 +115,13 @@ header {
     display: block;
 }
 
-.element audio {
+.audio-container {
     width: 200px;
+    height: 60px;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .element.selected {
@@ -290,12 +294,16 @@ function addElement(type, x = 100, y = 100) {
             el.style.height = '150px';
             loadMedia(el, 'video');
             return;
-        case 'audio': // FIXME: audio element is broken
-            el = document.createElement('audio');
-            el.controls = true;
-            el.style.width = '200px';
-            el.style.height = '40px';
-            loadMedia(el, 'audio');
+        case 'audio': 
+            // Put audio inside a container div to fix dessapearing controls issue
+            el = document.createElement('div'); 
+            el.classList.add('audio-container');
+            el.innerHTML = '<span class="placeholder" style="color:white; font-size:12px;">Audio Placeholder</span>';
+            const audio = document.createElement('audio');
+            audio.controls = false; 
+            el.appendChild(audio);
+
+            loadMedia(audio, 'audio'); 
             return;
     }
     if (el) {
@@ -341,30 +349,34 @@ function loadMedia(el, type) {
             const reader = new FileReader();
             reader.onload = () => {
                 el.src = reader.result;
-                el.classList.add('element');
-                el.dataset.id = Date.now();
-                el.setAttribute('data-x', 100);
-                el.setAttribute('data-y', 100);
-                el.setAttribute('data-angle', 0);
+                
+                // If it's audio, the 'element' is the parent div
+                const target = type === 'audio' ? el.parentElement : el;
+                
+                target.classList.add('element');
+                target.dataset.id = Date.now();
+                target.setAttribute('data-x', 100);
+                target.setAttribute('data-y', 100);
+                target.setAttribute('data-angle', 0);
+                
                 if (type === 'video') {
-                    el.style.width = '200px';
-                    el.style.height = '150px';
+                    target.style.width = '200px';
+                    target.style.height = '150px';
                 } else if (type === 'audio') {
-                    el.style.width = '200px';
-                    el.style.height = '40px';
+                    // Audio div is already styled in styles.css
                 }
-                el.style.transform = `translate(100px, 100px)`;
-                canvas.appendChild(el);
-                elements.push(el);
+                
+                target.style.transform = `translate(100px, 100px)`;
+                canvas.appendChild(target);
+                elements.push(target);
                 updateElementList();
-                selectElement(el);
+                selectElement(target);
                 updateInteractions();
             };
             reader.readAsDataURL(file);
         }
     };
     input.click();
-
 }
 
 function addImageFromData(data, x, y) {
@@ -521,8 +533,16 @@ function moveDown(id) {
 
 function toggleControls(id) {
     const el = document.querySelector(`[data-id="${id}"]`);
-    if (el.tagName === 'VIDEO' || el.tagName === 'AUDIO') {
-        el.controls = !el.controls;
+    // Find audio/video inside the clicked element or check if the element is the tag itself
+    const media = el.tagName === 'VIDEO' || el.tagName === 'AUDIO' ? el : el.querySelector('audio, video');
+    
+    if (media) {
+        media.controls = !media.controls;
+        // Optional: Hide the "🎵 Audio Player" text if controls are on
+        if (el.classList.contains('audio-container')) {
+            const span = el.querySelector('span');
+            if (span) span.style.display = media.controls ? 'none' : 'block';
+        }
     }
 }
 
