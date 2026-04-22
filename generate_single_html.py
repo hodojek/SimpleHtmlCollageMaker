@@ -10,9 +10,12 @@ def build():
     html = read_file("src/index.html")
     css = f"<style>\n{read_file('src/style.css')}</style>"
     js = f"<script>\n{read_file('src/code.js')}</script>"
+    version = read_file("version.txt").strip()
 
     html = html.replace('<link rel="stylesheet" href="style.css">', css)
     html = html.replace('<script src="code.js"></script>', js)
+    html = html.replace(r'{{ meta_version }}', f'<meta name="version" content="{version}">')
+    html = html.replace(r'{{ version }}', f'{version}')
 
     write_file("simple_html_collage_maker.html", html)
 

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {{ meta_version }}
     <title>HTML Page Creator</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -9,6 +10,7 @@
     <header>
         <h1>Simple HTML Collage Maker</h1>
         <p>Create HTML collages by dragging and editing elements.</p>
+        <small>{{ version }}</small>
     </header>
     <div id="app">
         <div id="canvas"></div>
@@ -23,8 +25,8 @@
                     <option value="audio">Audio</option>
                 </select>
                 <button id="transform-btn" title="Toggle transform mode">Transform</button>
-                <label>Canvas Width: <input id="canvas-width" type="number" value="800" step="50"></label>
-                <label>Canvas Height: <input id="canvas-height" type="number" value="600" step="50"></label>
+                <label>Canvas Width: <input id="canvas-width" class="size-input" type="number" value="800" step="50"></label>
+                <label>Canvas Height: <input id="canvas-height" class="size-input" type="number" value="600" step="50"></label>
                 <button id="set-canvas-size" title="Set canvas size">Set Size</button>
             </div>
 

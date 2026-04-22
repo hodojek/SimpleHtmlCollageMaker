@@ -9,9 +9,13 @@ body {
 }
 
 header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
     background: #f0f0f0;
     padding: 10px;
     text-align: center;
+    text-wrap: nowrap;
 }
 
 #app {
@@ -45,6 +49,11 @@ header {
     display: block;
     margin: 5px 0;
     width: 100%;
+}
+
+#tools label {
+    display: block;
+    white-space: nowrap;
 }
 
 #element-list ul {
