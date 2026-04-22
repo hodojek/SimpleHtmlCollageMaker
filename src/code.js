@@ -370,26 +370,61 @@ function toggleControls(id) {
 }
 
 function generateHTML() {
-    let html = '<!DOCTYPE html><html><head><title>Exported Page</title></head><body style="margin:0; background:black; position:relative; width:' + canvasWidth + 'px; height:' + canvasHeight + 'px;">';
+    const isIframeExport = document.getElementById('iframe-check').checked;
+    
+    // 1. Build the base collage content
+    let innerHTML = '<!DOCTYPE html><html><head><title>Exported Page</title></head><body style="margin:0; background:black; position:relative; width:' + canvasWidth + 'px; height:' + canvasHeight + 'px;">';
+    
     elements.forEach(el => {
+        // Ensure media has controls in the export
         if (el.tagName === 'VIDEO' || el.tagName === 'AUDIO') {
             el.controls = true;
         }
+        
+        const media = el.querySelector('video, audio');
+        if (media) media.controls = true;
+
         const x = parseFloat(el.getAttribute('data-x')) || 0;
         const y = parseFloat(el.getAttribute('data-y')) || 0;
         const angle = parseFloat(el.getAttribute('data-angle')) || 0;
+        
         const clone = el.cloneNode(true);
         clone.removeAttribute('data-id');
         clone.removeAttribute('data-x');
         clone.removeAttribute('data-y');
         clone.removeAttribute('data-angle');
         clone.classList.remove('selected');
+        
         clone.style.position = 'absolute';
         clone.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
-        html += clone.outerHTML;
+        
+        innerHTML += clone.outerHTML;
     });
-    html += '</body></html>';
-    return html;
+    
+    innerHTML += '</body></html>';
+
+    // 2. Conditional Iframe Wrapping
+    if (isIframeExport) {
+        // Escape quotes so srcdoc doesn't break
+        const escapedHTML = innerHTML.replace(/"/g, '&quot;');
+        
+        return `<!DOCTYPE html>
+        <html>
+        <head><title>Iframe Wrapper</title></head>
+        <body style="margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background:#111;">
+            <iframe 
+                id="exported-iframe"
+                width="${canvasWidth}" 
+                height="${canvasHeight}" 
+                style="border:none; background:black;"
+                srcdoc="${escapedHTML}">
+            </iframe>
+        </body>
+        </html>`;
+    }
+
+    // Default: Return standard HTML
+    return innerHTML;
 }
 
 function download(content, filename) {
