@@ -297,16 +297,16 @@ function showContextMenu(el, x, y) {
     menu.style.border = '1px solid #ccc';
     menu.style.zIndex = 1000;
     menu.innerHTML = `
-        <div onclick="changeText('${el.dataset.id}')">Change Text</div>
-        <div onclick="changeLink('${el.dataset.id}')">Change Link</div>
-        <div onclick="addId('${el.dataset.id}')">Add ID</div>
-        <div onclick="removeId('${el.dataset.id}')">Remove ID</div>
-        <div onclick="addClass('${el.dataset.id}')">Add Class</div>
-        <div onclick="removeClass('${el.dataset.id}')">Remove Class</div>
-        <div onclick="deleteElement('${el.dataset.id}')">Delete</div>
-        <div onclick="moveUp('${el.dataset.id}')">Move Up</div>
-        <div onclick="moveDown('${el.dataset.id}')">Move Down</div>
-        <div onclick="toggleControls('${el.dataset.id}')">Toggle Controls</div>
+        <div class="clickable-item" onclick="changeText('${el.dataset.id}')">Change Text</div>
+        <div class="clickable-item" onclick="changeLink('${el.dataset.id}')">Change Link</div>
+        <div class="clickable-item" onclick="addId('${el.dataset.id}')">Add ID</div>
+        <div class="clickable-item" onclick="removeId('${el.dataset.id}')">Remove ID</div>
+        <div class="clickable-item" onclick="addClass('${el.dataset.id}')">Add Class</div>
+        <div class="clickable-item" onclick="removeClass('${el.dataset.id}')">Remove Class</div>
+        <div class="clickable-item" onclick="deleteElement('${el.dataset.id}')" style="color: red;">Delete</div>
+        <div class="clickable-item" onclick="moveUp('${el.dataset.id}')">Move Up</div>
+        <div class="clickable-item" onclick="moveDown('${el.dataset.id}')">Move Down</div>
+        <div class="clickable-item" onclick="toggleControls('${el.dataset.id}')">Toggle Controls</div>
     `;
     document.body.appendChild(menu);
     document.addEventListener('click', () => menu.remove(), {once: true});

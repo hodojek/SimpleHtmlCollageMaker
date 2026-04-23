@@ -125,3 +125,13 @@ header small {
     outline: 2px solid #00ff00;
     outline-offset: 2px;
 }
+
+.clickable-item {
+    cursor: pointer;
+    padding: 4px 8px; 
+    transition: background-color 0.2s;
+}
+
+.clickable-item:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
