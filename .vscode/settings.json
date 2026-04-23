@@ -1,0 +1,14 @@
+{
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.(html|css|js)$",
+                "cmd": "echo File ${fileBasename} has been saved!"
+            },
+            {
+                "match": "\\.(html|css|js)$",
+                "cmd": "python generate_single_html.py"
+            },
+        ]
+    }
+}

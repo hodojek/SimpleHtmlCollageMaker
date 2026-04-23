@@ -653,6 +653,13 @@ function updateElementList() {
         const li = document.createElement('li');
         li.textContent = el.tagName + (el.id ? '#' + el.id : '') + (el.className ? '.' + el.className.replace('element', '').trim() : '');
         li.onclick = () => selectElement(el);
+
+        li.oncontextmenu = (e) => {
+            e.preventDefault();
+            selectElement(el); 
+            showContextMenu(el, e.clientX, e.clientY);
+        };
+
         ul.appendChild(li);
     });
     console.log('Element list updated:', elements);
