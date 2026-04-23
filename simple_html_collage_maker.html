@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="version" content="v0.1.0">
     <title>HTML Page Creator</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
 ﻿html {
     height: 100dvh;
@@ -88,7 +89,7 @@ header small {
 }
 
 #export-btn {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -141,6 +142,30 @@ header small {
 
 .clickable-item:hover {
     background-color: rgba(0, 0, 0, 0.3);
+}
+
+.embed-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#embed-code-field {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+}
+
+#embedCodeField:focus {
+    outline: none;
+    border-color: #888;
 }</style>
 </head>
 <body>
@@ -173,8 +198,13 @@ header small {
                 <ul id="elements-ul"></ul>
             </div>
 
-            <button id="export-btn" title="Download HTML file">Export HTML</button>
-            <label><input type="checkbox" id="iframe-check" checked> Export as iframe</label>
+            <h3>Export:</h3>
+            <label><input type="checkbox" id="iframe-check" checked onclick="refreshEmbedCode()"> Export as iframe</label>
+            <div class="embed-wrapper">
+                <textarea id="embed-code-field" readonly></textarea>
+                <button onclick="copyEmbedCode()">Copy Code</button>
+            </div>
+            <button id="export-btn" title="Download HTML file">Download HTML</button>
 
             <details id="help-details">
               <summary class="clickable-item">Help</summary>
@@ -189,6 +219,7 @@ header small {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
 ﻿let elements = [];
 let selectedElement = null;
@@ -204,6 +235,7 @@ const elementType = document.getElementById('element-type');
 const transformBtn = document.getElementById('transform-btn');
 const exportBtn = document.getElementById('export-btn');
 const keepRatioCheck = document.getElementById('keep-ratio-check');
+const textArea = document.getElementById('embed-code-field');
 
 addBtn.addEventListener('click', (e) => {
     console.log('Add button clicked');
@@ -569,7 +601,6 @@ function toggleControls(id) {
     
     if (media) {
         media.controls = !media.controls;
-        // Optional: Hide the "🎵 Audio Player" text if controls are on
         if (el.classList.contains('audio-container')) {
             const span = el.querySelector('span');
             if (span) span.style.display = media.controls ? 'none' : 'block';
@@ -653,6 +684,7 @@ function updateTransform(el) {
     const y = parseFloat(el.getAttribute('data-y')) || 0;
     const angle = parseFloat(el.getAttribute('data-angle')) || 0;
     el.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+    refreshEmbedCode();
 }
 
 function updateElementList() {
@@ -671,6 +703,7 @@ function updateElementList() {
 
         ul.appendChild(li);
     });
+    refreshEmbedCode();
     console.log('Element list updated:', elements);
 }
 
@@ -684,6 +717,19 @@ function selectElement(el) {
     selectedElement = el;
     console.log('Element selected:', el);
 }
-</script>
+
+function refreshEmbedCode() {
+    const html = generateHTML();
+    textArea.value = html;
+}
+
+function copyEmbedCode() {
+    textArea.select();
+    navigator.clipboard.writeText(textArea.value);
+
+    Toastify({
+        text: "Copied to clipboard!",
+    }).showToast();
+}</script>
 </body>
 </html>

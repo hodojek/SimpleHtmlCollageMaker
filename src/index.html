@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     {{ meta_version }}
     <title>HTML Page Creator</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -36,8 +37,13 @@
                 <ul id="elements-ul"></ul>
             </div>
 
-            <button id="export-btn" title="Download HTML file">Export HTML</button>
-            <label><input type="checkbox" id="iframe-check" checked> Export as iframe</label>
+            <h3>Export:</h3>
+            <label><input type="checkbox" id="iframe-check" checked onclick="refreshEmbedCode()"> Export as iframe</label>
+            <div class="embed-wrapper">
+                <textarea id="embed-code-field" readonly></textarea>
+                <button onclick="copyEmbedCode()">Copy Code</button>
+            </div>
+            <button id="export-btn" title="Download HTML file">Download HTML</button>
 
             <details id="help-details">
               <summary class="clickable-item">Help</summary>
@@ -52,6 +58,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="code.js"></script>
 </body>
 </html>

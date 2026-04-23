@@ -12,6 +12,7 @@ const elementType = document.getElementById('element-type');
 const transformBtn = document.getElementById('transform-btn');
 const exportBtn = document.getElementById('export-btn');
 const keepRatioCheck = document.getElementById('keep-ratio-check');
+const textArea = document.getElementById('embed-code-field');
 
 addBtn.addEventListener('click', (e) => {
     console.log('Add button clicked');
@@ -377,7 +378,6 @@ function toggleControls(id) {
     
     if (media) {
         media.controls = !media.controls;
-        // Optional: Hide the "🎵 Audio Player" text if controls are on
         if (el.classList.contains('audio-container')) {
             const span = el.querySelector('span');
             if (span) span.style.display = media.controls ? 'none' : 'block';
@@ -461,6 +461,7 @@ function updateTransform(el) {
     const y = parseFloat(el.getAttribute('data-y')) || 0;
     const angle = parseFloat(el.getAttribute('data-angle')) || 0;
     el.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+    refreshEmbedCode();
 }
 
 function updateElementList() {
@@ -479,6 +480,7 @@ function updateElementList() {
 
         ul.appendChild(li);
     });
+    refreshEmbedCode();
     console.log('Element list updated:', elements);
 }
 
@@ -491,4 +493,18 @@ function selectElement(el) {
     if (lis[index]) lis[index].classList.add('selected');
     selectedElement = el;
     console.log('Element selected:', el);
+}
+
+function refreshEmbedCode() {
+    const html = generateHTML();
+    textArea.value = html;
+}
+
+function copyEmbedCode() {
+    textArea.select();
+    navigator.clipboard.writeText(textArea.value);
+
+    Toastify({
+        text: "Copied to clipboard!",
+    }).showToast();
 }
