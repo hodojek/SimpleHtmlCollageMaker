@@ -61,6 +61,10 @@ header small {
     white-space: nowrap;
 }
 
+#keep-ratio-check {
+    margin-bottom: 20px;
+}
+
 #element-list ul {
     list-style: none;
     padding: 0;

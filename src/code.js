@@ -11,6 +11,7 @@ const addBtn = document.getElementById('add-btn');
 const elementType = document.getElementById('element-type');
 const transformBtn = document.getElementById('transform-btn');
 const exportBtn = document.getElementById('export-btn');
+const keepRatioCheck = document.getElementById('keep-ratio-check');
 
 addBtn.addEventListener('click', (e) => {
     console.log('Add button clicked');
@@ -237,12 +238,27 @@ function updateInteractions() {
             .resizable({
                 edges: { left: true, right: true, bottom: true, top: true }
             })
+            .on('resizestart', (event) => {
+                const target = event.target;
+                target.setAttribute('data-aspect-ratio', target.offsetWidth / target.offsetHeight);
+            })
             .on('resizemove', (event) => {
                 const target = event.target;
                 let x = (parseFloat(target.getAttribute('data-x')) || 0);
                 let y = (parseFloat(target.getAttribute('data-y')) || 0);
-                target.style.width = event.rect.width + 'px';
-                target.style.height = event.rect.height + 'px';
+                let width = event.rect.width;
+                let height = event.rect.height;
+                
+                // If keep ratio is checked, maintain aspect ratio
+                // FIXME: Ratio breaks when making it too small
+                if (keepRatioCheck.checked) {
+                    const aspectRatio = parseFloat(target.getAttribute('data-aspect-ratio')) || 1;
+                    // Adjust height based on width change
+                    height = width / aspectRatio;
+                }
+                
+                target.style.width = width + 'px';
+                target.style.height = height + 'px';
                 x += event.deltaRect.left;
                 y += event.deltaRect.top;
                 target.setAttribute('data-x', x);
